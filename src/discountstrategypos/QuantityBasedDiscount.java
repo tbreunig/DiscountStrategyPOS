@@ -9,18 +9,33 @@ public class QuantityBasedDiscount implements DiscountStrategy {
     private double minQty;
 
     @Override
-    public double findDiscount() {
+    public double findDiscountAmount(double productCost, double quantity) {
+
+        double deefault = 0;
+
+        if (quantity >= minQty) {
+            System.out.println("Buy one! Get one half off!");
+            deefault = (productCost * quantity) * discountPercentage;
+        } else {
+
+            System.out.println("Does not meet minimum quantity requirement. Try again.");   
+        } 
+        return deefault;
+    }
+
+    public QuantityBasedDiscount(double minQty, double discountPercentage) {
+        this.minQty = minQty;
+        this.discountPercentage = discountPercentage;
+    }
+
+    @Override
+    public final double getDiscountPercentage() {
         return discountPercentage;
     }
 
-    public QuantityBasedDiscount(double quantity) {
-
-        if (quantity < minQty) {
-            System.out.println("Does not meet the requirements");
-        } else {
-            setDiscountPercentage(discountPercentage);
-        }
-
+    @Override
+    public final void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
     }
 
     public final double getMinQty() {
@@ -31,18 +46,15 @@ public class QuantityBasedDiscount implements DiscountStrategy {
         this.minQty = minQty;
     }
 
-    public final void setDiscountPercentage(double discountPercentage) {
-        this.discountPercentage = discountPercentage;
-    }
-
-    public final double getDiscountPercentage() {
-        return discountPercentage;
-    }
-
     //TESTING
     public static void main(String[] args) {
-        QuantityBasedDiscount qbd = new QuantityBasedDiscount(2);
-        qbd.setMinQty(3);
+        DiscountStrategy qbd = new QuantityBasedDiscount(1, .50);
+        qbd.setDiscountPercentage(.50);
+        double result = qbd.findDiscountAmount(100, 1);
+
+        String output = String.format("You saved: $%.2f!", result);
+        System.out.println(output);
 
     }
+
 }

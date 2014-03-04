@@ -8,7 +8,7 @@ public class PercentageBasedDiscount implements DiscountStrategy {
     private double discountPercentage;
 
     @Override
-    public double findDiscount(double productCost, double quantity) {
+    public double findDiscountAmount(double productCost, double quantity) {
         return (productCost * quantity) * discountPercentage;
     }
 
@@ -18,18 +18,21 @@ public class PercentageBasedDiscount implements DiscountStrategy {
         setDiscountPercentage(discountPercentage);
     }
 
+    @Override
     public final double getDiscountPercentage() {
         return discountPercentage;
     }
 
+    @Override
     public final void setDiscountPercentage(double discountPercentage) {
         this.discountPercentage = discountPercentage;
     }
-    
-//    public static void main(String[] args) {
-//        PercentageBasedDiscount pbd = new PercentageBasedDiscount(.10);
-//        pbd.setDiscountPercentage(.20);
-//        double result = pbd.findDiscount(100., 1);
-//        System.out.println(result);
-//    }
+
+    public static void main(String[] args) {
+        DiscountStrategy pbd = new PercentageBasedDiscount(.10);
+        double result = pbd.findDiscountAmount(100., 1);
+        
+        String output = String.format("You saved: $%.2f!", result);
+        System.out.println(output);
+    }
 }
